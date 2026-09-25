@@ -1,0 +1,301 @@
+/* CardioML Universal Design System - High-Contrast Dual Light/Dark Mode */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+/* Default Dark Theme Variables */
+[data-bs-theme="dark"] {
+    --bg-body: #090d16;
+    --bg-card: rgba(17, 24, 39, 0.9);
+    --bg-card-hover: rgba(31, 41, 55, 0.95);
+    --bg-input: #1f2937;
+    --border-color: rgba(255, 255, 255, 0.12);
+    --border-highlight: rgba(6, 182, 212, 0.5);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --text-subtle: #64748b;
+    --nav-bg: rgba(17, 24, 39, 0.9);
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --hover-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(6, 182, 212, 0.2);
+    --primary-neon: #06b6d4;
+    --blue-neon: #3b82f6;
+    --gradient-hero: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+}
+
+/* Light Theme Variables */
+[data-bs-theme="light"] {
+    --bg-body: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-card-hover: #ffffff;
+    --bg-input: #ffffff;
+    --border-color: #cbd5e1;
+    --border-highlight: rgba(37, 99, 235, 0.5);
+    --text-main: #0f172a;
+    --text-muted: #334155;
+    --text-subtle: #475569;
+    --nav-bg: rgba(255, 255, 255, 0.95);
+    --card-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    --hover-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
+    --primary-neon: #2563eb;
+    --blue-neon: #1d4ed8;
+    --gradient-hero: linear-gradient(135deg, #0f172a 0%, #2563eb 50%, #0284c7 100%);
+}
+
+/* High Contrast Light Mode Rules - Ensures Text is 100% Readable */
+[data-bs-theme="light"] {
+    color: #0f172a !important;
+}
+
+[data-bs-theme="light"] h1,
+[data-bs-theme="light"] h2,
+[data-bs-theme="light"] h3,
+[data-bs-theme="light"] h4,
+[data-bs-theme="light"] h5,
+[data-bs-theme="light"] h6 {
+    color: #0f172a !important;
+}
+
+[data-bs-theme="light"] .text-white {
+    color: #0f172a !important;
+}
+
+[data-bs-theme="light"] .text-secondary {
+    color: #334155 !important;
+}
+
+[data-bs-theme="light"] .text-muted {
+    color: #475569 !important;
+}
+
+[data-bs-theme="light"] .bg-dark {
+    background-color: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+[data-bs-theme="light"] .bg-body-tertiary {
+    background-color: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+/* Dark Mode Typography */
+[data-bs-theme="dark"] h1,
+[data-bs-theme="dark"] h2,
+[data-bs-theme="dark"] h3,
+[data-bs-theme="dark"] h4,
+[data-bs-theme="dark"] h5,
+[data-bs-theme="dark"] h6 {
+    color: #f8fafc !important;
+}
+
+body {
+    background-color: var(--bg-body);
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Glassmorphic Navbar */
+.glass-nav-theme {
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.brand-icon-theme {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(59, 130, 246, 0.15) 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-highlight);
+}
+
+.heart-pulse-anim {
+    animation: heartPulse 1.8s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+@keyframes heartPulse {
+    0% { transform: scale(1); }
+    14% { transform: scale(1.25); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.18); }
+    70% { transform: scale(1); }
+}
+
+.nav-link-theme {
+    color: var(--text-muted) !important;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.nav-link-theme:hover {
+    color: var(--primary-neon) !important;
+    background-color: rgba(6, 182, 212, 0.08);
+}
+
+.nav-link-theme.active {
+    color: var(--primary-neon) !important;
+    background-color: rgba(6, 182, 212, 0.12);
+    border: 1px solid var(--border-highlight);
+}
+
+/* Hero Gradient Typography */
+.gradient-text-hero {
+    background: var(--gradient-hero);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Universal Cards */
+.card-theme {
+    background: var(--bg-card);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+    padding: 2rem;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    color: var(--text-main);
+}
+
+.card-theme:hover {
+    transform: translateY(-5px);
+    border-color: var(--border-highlight);
+    box-shadow: var(--hover-shadow);
+}
+
+/* Buttons */
+.btn-theme-cyan {
+    background: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+    color: #ffffff !important;
+    border: none;
+    padding: 0.85rem 1.8rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    box-shadow: 0 4px 20px rgba(6, 182, 212, 0.35);
+    transition: all 0.25s ease;
+}
+
+.btn-theme-cyan:hover {
+    background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(6, 182, 212, 0.5);
+}
+
+.btn-theme-outline {
+    background: transparent;
+    color: var(--text-main) !important;
+    border: 1.5px solid var(--border-color);
+    padding: 0.85rem 1.8rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    transition: all 0.25s ease;
+}
+
+.btn-theme-outline:hover {
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--primary-neon) !important;
+    border-color: var(--border-highlight);
+    transform: translateY(-2px);
+}
+
+/* Theme Toggle Button */
+.btn-theme-toggle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border-color);
+    background: var(--bg-card);
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-theme-toggle:hover {
+    border-color: var(--primary-neon);
+    color: var(--primary-neon);
+    transform: rotate(15deg);
+}
+
+/* Process Flow Nodes */
+.process-node {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.25rem;
+    text-align: center;
+    color: var(--text-main);
+    transition: all 0.3s ease;
+}
+
+.process-node:hover {
+    border-color: var(--border-highlight);
+    transform: translateY(-3px);
+}
+
+/* Form inputs */
+.input-theme {
+    border-radius: 12px;
+    border: 1.5px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    color: var(--text-main) !important;
+    background-color: var(--bg-input) !important;
+    transition: all 0.2s ease;
+}
+
+.input-theme:focus {
+    background-color: var(--bg-card) !important;
+    border-color: var(--primary-neon) !important;
+    box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.2) !important;
+    color: var(--text-main) !important;
+    outline: none;
+}
+
+.select-theme {
+    border-radius: 12px;
+    border: 1.5px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    font-weight: 600;
+    color: var(--text-main) !important;
+    background-color: var(--bg-input) !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.select-theme:focus {
+    background-color: var(--bg-card) !important;
+    border-color: var(--primary-neon) !important;
+    box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.2) !important;
+    color: var(--text-main) !important;
+}
+
+/* Table styling for both modes */
+.table-theme-custom {
+    color: var(--text-main) !important;
+}
+
+.table-theme-custom tbody tr {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    transition: all 0.2s ease;
+}
+
+.table-theme-custom td, .table-theme-custom th {
+    padding: 1rem 1.25rem;
+    border: none;
+    color: var(--text-main) !important;
+}

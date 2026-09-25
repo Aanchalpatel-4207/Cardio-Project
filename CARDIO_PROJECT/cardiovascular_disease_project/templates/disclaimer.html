@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Academic & Medical Disclaimer - CardioML{% endblock %}
+
+{% block content %}
+<div class="container my-5" style="max-width: 820px;">
+    <div class="card-theme py-5 px-4 text-center">
+        
+        <div class="brand-icon-theme mx-auto mb-4" style="width: 72px; height: 72px; font-size: 2.2rem; background: rgba(244, 63, 94, 0.15); border-color: rgba(244, 63, 94, 0.3);">
+            <i class="fa-solid fa-shield-cat text-danger"></i>
+        </div>
+
+        <h3 class="display-6 fw-extrabold tracking-tight mb-3">Academic Project Disclaimer</h3>
+        
+        <p class="text-secondary leading-relaxed mb-4" style="font-size: 1.05rem;">
+            This web application (<strong>CardioML</strong>) has been designed and implemented exclusively for academic evaluation under the <strong>Darshan University Computer Engineering Department ML Project Standard Operating Procedure (SOP)</strong>.
+        </p>
+
+        <div class="p-4 bg-body-tertiary rounded-4 text-start mb-4 border small text-secondary">
+            <div class="fw-bold text-main mb-2 fs-6 d-flex align-items-center gap-2">
+                <i class="fa-solid fa-circle-info text-info"></i>
+                <span>Medical Notice for Users & Evaluators:</span>
+            </div>
+            <ul class="mb-0 ps-3">
+                <li class="mb-2">The prediction scores and risk classifications produced by this software are statistical machine learning estimates derived from historical dataset patterns.</li>
+                <li class="mb-2">This system is <strong>not</strong> a certified medical diagnostic device and should <strong>never</strong> replace professional medical diagnosis, laboratory testing, or clinical consultation.</li>
+                <li>Always consult a certified doctor or healthcare practitioner for any medical assessment or health concerns.</li>
+            </ul>
+        </div>
+
+        <div>
+            <a href="{{ url_for('predict') }}" class="btn btn-theme-cyan px-4 py-3">
+                <i class="fa-solid fa-calculator me-2"></i> Return to Risk Assessor
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

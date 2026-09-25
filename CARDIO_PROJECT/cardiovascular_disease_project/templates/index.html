@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}CardioML - AI Cardiovascular Assessment & ML Pipeline{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+
+    <!-- Hero Section with Interactive Sample Estimator Card -->
+    <div class="row align-items-center gy-5 mb-5">
+        <div class="col-lg-6">
+            <span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2 rounded-pill fw-bold mb-3">
+                <i class="fa-solid fa-sparkles me-1 text-info"></i> Academic ML SOP Project (Weeks 1 - 10)
+            </span>
+            
+            <h1 class="display-4 fw-extrabold tracking-tight mb-3">
+                Cardiovascular <br>
+                <span class="gradient-text-hero">Risk Assessment AI</span>
+            </h1>
+            
+            <p class="lead text-secondary mb-4" style="font-size: 1.15rem;">
+                An intelligent clinical decision support platform trained on 70,000 patient records. Features automated outlier cleaning, AHA blood pressure categorization, and custom **NumPy Logistic Regression implemented from scratch**.
+            </p>
+            
+            <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
+                <a href="{{ url_for('predict') }}" class="btn btn-theme-cyan px-4 py-3 fs-6 d-inline-flex align-items-center gap-2">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                    <span>Start Risk Assessment</span>
+                </a>
+                <a href="{{ url_for('model_info') }}" class="btn btn-theme-outline px-4 py-3 fs-6 d-inline-flex align-items-center gap-2">
+                    <i class="fa-solid fa-microchip"></i>
+                    <span>View Benchmark Matrix</span>
+                </a>
+            </div>
+
+            <div class="d-flex align-items-center gap-4 text-muted small pt-3 border-top">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-circle-check text-success fs-5"></i>
+                    <span class="text-secondary">70,000 Patient Dataset</span>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-code text-info fs-5"></i>
+                    <span class="text-secondary">NumPy Scratch Algorithm</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sample Quick Estimator Card on Hero -->
+        <div class="col-lg-6">
+            <div class="card-theme p-4 shadow-lg border-start border-4 border-info">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold m-0 d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-calculator text-info"></i>
+                        <span>Interactive Sample Estimator</span>
+                    </h5>
+                    <span class="badge bg-info-subtle text-info">Live Preview</span>
+                </div>
+                
+                <p class="text-secondary small mb-4">Try a sample patient profile to see instant AI risk probability & health rating calculations:</p>
+
+                <div class="row g-3 mb-3 text-center small">
+                    <div class="col-4">
+                        <div class="p-2 border rounded bg-body-tertiary">
+                            <span class="text-secondary">Age / BP</span>
+                            <div class="fw-bold mt-1">54 yrs | 140/90</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="p-2 border rounded bg-body-tertiary">
+                            <span class="text-secondary">Chol / Glucose</span>
+                            <div class="fw-bold mt-1">Above Normal</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="p-2 border rounded bg-body-tertiary">
+                            <span class="text-secondary">BMI Status</span>
+                            <div class="fw-bold text-warning mt-1">26.8 (Overweight)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sample Result Card -->
+                <div class="p-3 rounded-3 bg-body-tertiary border mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div>
+                            <span class="badge bg-danger text-white px-2 py-1 small rounded-pill">High Risk</span>
+                            <span class="text-warning ms-2">⭐⭐⭐⭐</span>
+                        </div>
+                        <div class="fw-bold text-info">Health Score: 1.6 / 10</div>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-baseline mb-1">
+                        <span class="small text-secondary">Cardiovascular Risk Probability:</span>
+                        <strong class="fs-4 text-danger">84.1%</strong>
+                    </div>
+
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar bg-danger" style="width: 84.1%;"></div>
+                    </div>
+                </div>
+
+                <a href="{{ url_for('predict') }}" class="btn btn-sm btn-outline-info w-100 rounded-pill font-weight-bold">
+                    Test Your Own Clinical Vitals <i class="fa-solid fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step-by-Step SOP Pipeline Flowchart Section
+    <div class="my-5 py-4">
+        <div class="text-center mb-5">
+            <span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2 rounded-pill mb-2">
+                <i class="fa-solid fa-diagram-project me-1"></i> Academic Pipeline
+            </span>
+            <h3 class="fw-extrabold tracking-tight">End-to-End ML Execution Flow</h3>
+            <p class="text-secondary small">Following Darshan University Computer Engineering Department SOP Weeks 1 to 10</p>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-3">
+                <div class="process-node h-100">
+                    <div class="badge bg-primary px-3 py-1 rounded-pill mb-2">Step 1</div>
+                    <h6 class="fw-bold mb-1"><i class="fa-solid fa-database text-info me-1"></i> Data Ingestion</h6>
+                    <p class="text-secondary small mb-0">Loads Kaggle `cardio_train.csv` (70,000 raw patient records).</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="process-node h-100">
+                    <div class="badge bg-info px-3 py-1 rounded-pill mb-2">Step 2</div>
+                    <h6 class="fw-bold mb-1"><i class="fa-solid fa-filter text-info me-1"></i> Data Cleaning</h6>
+                    <p class="text-secondary small mb-0">Filters BP/height outliers; engineers age in years, BMI & BP category.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="process-node h-100">
+                    <div class="badge bg-warning text-dark px-3 py-1 rounded-pill mb-2">Step 3</div>
+                    <h6 class="fw-bold mb-1"><i class="fa-solid fa-code text-warning me-1"></i> Scratch & ML Models</h6>
+                    <p class="text-secondary small mb-0">Trains NumPy Scratch Logistic Regression alongside Scikit-Learn models.</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="process-node h-100">
+                    <div class="badge bg-success px-3 py-1 rounded-pill mb-2">Step 4</div>
+                    <h6 class="fw-bold mb-1"><i class="fa-solid fa-star text-success me-1"></i> Rating & Flask UI</h6>
+                    <p class="text-secondary small mb-0">Renders probability %, 10-Point Health Score, star rating & interactive UI.</p>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- Feature Cards Grid
+    <div class="row g-4 mt-3">
+        <div class="col-sm-6 col-lg-3">
+            <div class="card-theme text-center h-100">
+                <div class="display-6 fw-extrabold text-info mb-1">
+                    {{ metrics.metrics['Gradient Boosting']['accuracy'] if metrics and 'metrics' in metrics else '73.4' }}%
+                </div>
+                <div class="fw-bold mb-1">Model Accuracy</div>
+                <p class="text-secondary small mb-0">Trained on 70,000+ clinical records with 5-fold CV.</p>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <div class="card-theme text-center h-100">
+                <div class="display-6 fw-extrabold text-warning mb-1">&lt; 0.1s</div>
+                <div class="fw-bold mb-1">Real-time Speed</div>
+                <p class="text-secondary small mb-0">Instant prediction response using trained binary classifiers.</p>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <div class="card-theme text-center h-100">
+                <div class="display-6 fw-extrabold text-success mb-1">100%</div>
+                <div class="fw-bold mb-1">Privacy Safe</div>
+                <p class="text-secondary small mb-0">Client-side session processing without saving identifiers.</p>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-lg-3">
+            <div class="card-theme text-center h-100">
+                <div class="display-6 fw-extrabold text-primary mb-1">Dual</div>
+                <div class="fw-bold mb-1">Theme & Model</div>
+                <p class="text-secondary small mb-0">Toggle Light/Dark Mode & switch between Scikit-Learn / NumPy Scratch ML.</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %} -->

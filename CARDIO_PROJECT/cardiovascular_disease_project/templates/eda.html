@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block title %}Data Insights & EDA Dashboard - CardioML{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+    <div class="text-center mb-5">
+        <span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2 rounded-pill mb-2">
+            <i class="fa-solid fa-chart-pie me-1"></i> SOP Week 2 Compliance
+        </span>
+        <h2 class="display-6 fw-extrabold tracking-tight mb-2">Dataset Cleaning & Exploratory Insights</h2>
+        <p class="text-secondary lead fs-6">Data pre-processing pipeline statistics and target physiological benchmarks</p>
+    </div>
+
+    <!-- Data Counters -->
+    <div class="row g-4 mb-5">
+        {% set stats = metrics.cleaning_stats if metrics and 'cleaning_stats' in metrics else {'raw_records': 70000, 'removed_records': 1472, 'removed_percentage': 2.1, 'final_records': 68528} %}
+        <div class="col-md-4">
+            <div class="card-theme text-center">
+                <div class="brand-icon-theme mx-auto mb-3">
+                    <i class="fa-solid fa-database text-info fs-4"></i>
+                </div>
+                <div class="display-5 fw-extrabold mb-1">{{ stats.raw_records }}</div>
+                <div class="fw-bold mb-1">Raw Dataset Records</div>
+                <p class="text-secondary small mb-0">Initial Kaggle patient entries</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card-theme text-center">
+                <div class="brand-icon-theme mx-auto mb-3" style="background: rgba(244, 63, 94, 0.15); border-color: rgba(244, 63, 94, 0.3);">
+                    <i class="fa-solid fa-filter text-danger fs-4"></i>
+                </div>
+                <div class="display-5 fw-extrabold text-danger mb-1">{{ stats.removed_records }}</div>
+                <div class="fw-bold mb-1">Outliers Removed</div>
+                <p class="text-danger small mb-0">{{ stats.removed_percentage }}% invalid blood pressure & height values</p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card-theme text-center">
+                <div class="brand-icon-theme mx-auto mb-3" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3);">
+                    <i class="fa-solid fa-circle-check text-success fs-4"></i>
+                </div>
+                <div class="display-5 fw-extrabold text-success mb-1">{{ stats.final_records }}</div>
+                <div class="fw-bold mb-1">Clean Validation Set</div>
+                <p class="text-success small mb-0">Filtered entries used for ML model training</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Understanding CVD & Benchmarks -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-7">
+            <div class="card-theme h-100">
+                <h5 class="fw-bold mb-3 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-notes-medical text-info"></i>
+                    <span>Understanding Cardiovascular Disease (CVD)</span>
+                </h5>
+                <p class="text-secondary small leading-relaxed mb-3">
+                    Cardiovascular disease encompasses disorders of the heart and vascular system. Key clinical drivers include persistent high blood pressure, elevated cholesterol levels, elevated fasting glucose, physical inactivity, and obesity.
+                </p>
+                <div class="p-3 bg-body-tertiary rounded-3 border small text-secondary mb-3">
+                    <div class="fw-bold text-main mb-1">Key Findings from Dataset Analysis:</div>
+                    <ul class="mb-0 ps-3">
+                        <li class="mb-1">Systolic blood pressure (<span class="font-monospace text-info">ap_hi</span>) is the single strongest predictor of CVD risk (68.9% importance).</li>
+                        <li class="mb-1">Patient age is the second most significant predictor (12.8% contribution).</li>
+                        <li>Body Mass Index (BMI) engineered from height and weight significantly improves model precision.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card-theme h-100">
+                <h5 class="fw-bold mb-3 d-flex align-items-center gap-2">
+                    <i class="fa-solid fa-heart-pulse text-danger"></i>
+                    <span>Target Clinical Healthy Benchmarks</span>
+                </h5>
+                
+                <div class="row g-2 text-center small">
+                    <div class="col-6">
+                        <div class="p-3 border rounded-3 bg-body-tertiary">
+                            <div class="text-secondary">Blood Pressure</div>
+                            <div class="fw-bold mt-1">~120 / 80 mmHg</div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="p-3 border rounded-3 bg-body-tertiary">
+                            <div class="text-secondary">Total Cholesterol</div>
+                            <div class="fw-bold mt-1">&lt; 200 mg/dL</div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="p-3 border rounded-3 bg-body-tertiary">
+                            <div class="text-secondary">Fasting Glucose</div>
+                            <div class="fw-bold mt-1">70 - 99 mg/dL</div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="p-3 border rounded-3 bg-body-tertiary">
+                            <div class="text-secondary">Ideal BMI Range</div>
+                            <div class="fw-bold mt-1">18.5 - 24.9 kg/m²</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDA Visual Plot -->
+    <div class="card-theme text-center">
+        <h5 class="fw-bold mb-3"><i class="fa-solid fa-chart-line text-info me-2"></i>Exploratory Data Distribution Plots</h5>
+        <img src="{{ url_for('static', filename='images/eda_plots.png') }}" class="img-fluid rounded border" alt="EDA Charts">
+    </div>
+
+</div>
+{% endblock %}

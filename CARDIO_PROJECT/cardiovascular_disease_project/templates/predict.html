@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block title %}Predict CVD Risk - CardioML{% endblock %}
+
+{% block content %}
+<div class="container my-4" style="max-width: 960px;">
+
+    <!-- Top Navigation Header -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <a href="{{ url_for('home') }}" class="btn btn-sm btn-theme-outline rounded-pill px-3 fw-semibold">
+            <i class="fa-solid fa-arrow-left me-1"></i> Back to Overview
+        </a>
+        <span class="badge bg-info-subtle text-info border border-info-subtle px-3 py-2 rounded-pill">
+            <i class="fa-solid fa-microchip me-1"></i> SOP Dual Machine Learning Pipeline
+        </span>
+    </div>
+
+    <div class="text-center mb-5">
+        <h2 class="display-6 fw-extrabold tracking-tight mb-2">Cardiovascular Risk Predictor</h2>
+        <p class="text-secondary lead fs-6">Input clinical metrics below for instant AI risk assessment</p>
+    </div>
+
+    <!-- Prediction Results Display with Health Rating & Stars (Visible upon submit) -->
+    {% if result %}
+    <div class="card-theme mb-5 border-0 shadow-lg" style="border-left: 6px solid var(--bs-{{ result.risk_class }}) !important;">
+        <div class="row align-items-center gy-4">
+            <div class="col-md-7">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="badge bg-{{ result.risk_class }} text-white px-3 py-2 rounded-pill fw-bold fs-6">
+                        <i class="fa-solid fa-triangle-exclamation me-1"></i> {{ result.risk_level }}
+                    </span>
+                    <span class="badge bg-body-tertiary border text-warning px-3 py-2 rounded-pill fw-bold fs-6">
+                        {{ result.rating_grade }}
+                    </span>
+                </div>
+
+                <!-- Star Rating Badge -->
+                <div class="mb-2 fs-4 text-warning">
+                    {{ result.risk_stars }}
+                    <span class="fs-6 text-secondary ms-2">({{ result.stars_count }} / 5 Heart Rating Stars)</span>
+                </div>
+                
+                <div class="d-flex align-items-baseline gap-2 mb-2">
+                    <span class="display-4 fw-extrabold text-{{ result.risk_class }}">{{ result.risk_percentage }}%</span>
+                    <span class="text-secondary fw-bold">Disease Risk Probability</span>
+                </div>
+
+                <!-- Progress Gauge -->
+                <div class="progress mb-4" style="height: 14px;">
+                    <div class="progress-bar bg-{{ result.risk_class }}" style="width: {{ result.risk_percentage }}%;"></div>
+                </div>
+
+                <div class="p-3 rounded-3 bg-body-tertiary border mb-3">
+                    <div class="fw-bold mb-1 d-flex align-items-center gap-2">
+                        <i class="fa-solid fa-user-doctor text-info"></i>
+                        <span>Clinical Recommendation:</span>
+                    </div>
+                    <p class="mb-0 text-secondary small leading-relaxed">{{ result.recommendation }}</p>
+                </div>
+            </div>
+
+            <div class="col-md-5 border-start-md">
+                <div class="p-3 bg-body-tertiary rounded-4 border text-center mb-3">
+                    <div class="text-secondary small fw-bold text-uppercase mb-1">Heart Health Score Rating</div>
+                    <div class="display-5 fw-extrabold text-info">{{ result.health_score }} <span class="fs-5 text-secondary">/ 10</span></div>
+                    <div class="small text-secondary mt-1">Calculated from clinical parameters</div>
+                </div>
+
+                <div class="p-3 bg-body-tertiary rounded-4 border">
+                    <h6 class="fw-bold mb-3">Assessment Metrics</h6>
+                    <div class="d-flex justify-content-between py-2 border-bottom small">
+                        <span class="text-secondary">Algorithm Used:</span>
+                        <strong class="text-info">{{ result.model_used }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between py-2 border-bottom small">
+                        <span class="text-secondary">Computed BMI:</span>
+                        <strong class="text-main">{{ result.bmi }} kg/m²</strong>
+                    </div>
+                    <div class="d-flex justify-content-between py-2 border-bottom small">
+                        <span class="text-secondary">BP Classification:</span>
+                        <strong class="text-main">{{ result.bp_category_text }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between py-2 small">
+                        <span class="text-secondary">Assessment ID:</span>
+                        <span class="badge bg-secondary-subtle text-info font-monospace">#CVD-{{ range(1000, 9999) | random }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Patient Inputs Card -->
+    <div class="card-theme">
+        <form action="{{ url_for('predict') }}" method="POST" id="predictForm">
+            
+            <!-- Model Choice Radio Cards -->
+            <div class="mb-4 p-4 rounded-4 bg-body-tertiary border">
+                <label class="fw-bold mb-3 d-flex justify-content-between align-items-center">
+                    <span><i class="fa-solid fa-sliders text-info me-2"></i>Select Machine Learning Algorithm:</span>
+                    <span class="badge bg-info-subtle text-info">SOP Section 3.1 Item 4</span>
+                </label>
+                
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <input type="radio" class="btn-check" name="model_choice" id="modelEnsemble" value="ensemble" checked>
+                        <label class="btn btn-outline-info w-100 p-3 text-start rounded-4" for="modelEnsemble">
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="fa-solid fa-tree fs-3 text-info"></i>
+                                <div>
+                                    <div class="fw-bold">Gradient Boosting</div>
+                                    <div class="small opacity-75">Scikit-Learn Library (73.4% Acc)</div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="radio" class="btn-check" name="model_choice" id="modelScratch" value="scratch">
+                        <label class="btn btn-outline-warning w-100 p-3 text-start rounded-4" for="modelScratch">
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="fa-solid fa-code fs-3 text-warning"></i>
+                                <div>
+                                    <div class="fw-bold">Scratch Logistic Regression</div>
+                                    <div class="small opacity-75">Pure NumPy Implementation</div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Previews Bar -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold m-0"><i class="fa-solid fa-user-nurse text-info me-2"></i>Patient Vitals & Metrics</h5>
+                <div class="d-flex gap-3 small">
+                    <span id="liveBmiPreview" class="badge bg-body-tertiary border text-main px-3 py-2">Live BMI: --</span>
+                    <span id="liveBpPreview" class="badge bg-body-tertiary border text-main px-3 py-2">Live BP: --</span>
+                </div>
+            </div>
+
+            <!-- Inputs Row 1 -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Age (Years)</label>
+                    <input type="number" class="form-control input-theme" name="age" value="{{ input_values.age if input_values else 52 }}" min="18" max="100" required>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Gender</label>
+                    <select class="form-select select-theme" name="gender">
+                        <option value="1" {% if input_values and input_values.gender == '1' %}selected{% endif %}>Female</option>
+                        <option value="2" {% if not input_values or input_values.gender == '2' %}selected{% endif %}>Male</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Height (cm)</label>
+                    <input type="number" class="form-control input-theme" name="height" value="{{ input_values.height if input_values else 168 }}" min="130" max="220" required>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Weight (kg)</label>
+                    <input type="number" step="0.1" class="form-control input-theme" name="weight" value="{{ input_values.weight if input_values else 74.0 }}" min="40" max="200" required>
+                </div>
+            </div>
+
+            <!-- Inputs Row 2 -->
+            <div class="row g-3 mb-4">
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Systolic BP (ap_hi)</label>
+                    <input type="number" class="form-control input-theme" name="ap_hi" value="{{ input_values.ap_hi if input_values else 130 }}" min="80" max="240" required>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Diastolic BP (ap_lo)</label>
+                    <input type="number" class="form-control input-theme" name="ap_lo" value="{{ input_values.ap_lo if input_values else 85 }}" min="40" max="150" required>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Cholesterol</label>
+                    <select class="form-select select-theme" name="cholesterol">
+                        <option value="1" {% if not input_values or input_values.cholesterol == '1' %}selected{% endif %}>Normal (1)</option>
+                        <option value="2" {% if input_values and input_values.cholesterol == '2' %}selected{% endif %}>Above Normal (2)</option>
+                        <option value="3" {% if input_values and input_values.cholesterol == '3' %}selected{% endif %}>Well Above Normal (3)</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Glucose Level</label>
+                    <select class="form-select select-theme" name="gluc">
+                        <option value="1" {% if not input_values or input_values.gluc == '1' %}selected{% endif %}>Normal (1)</option>
+                        <option value="2" {% if input_values and input_values.gluc == '2' %}selected{% endif %}>Above Normal (2)</option>
+                        <option value="3" {% if input_values and input_values.gluc == '3' %}selected{% endif %}>Well Above Normal (3)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Inputs Row 3 -->
+            <div class="row g-3 mb-5">
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Smoking</label>
+                    <select class="form-select select-theme" name="smoke">
+                        <option value="0" {% if not input_values or input_values.smoke == '0' %}selected{% endif %}>No (Non-smoker)</option>
+                        <option value="1" {% if input_values and input_values.smoke == '1' %}selected{% endif %}>Yes (Active Smoker)</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Alcohol Intake</label>
+                    <select class="form-select select-theme" name="alco">
+                        <option value="0" {% if not input_values or input_values.alco == '0' %}selected{% endif %}>No</option>
+                        <option value="1" {% if input_values and input_values.alco == '1' %}selected{% endif %}>Yes</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Physical Activity</label>
+                    <select class="form-select select-theme" name="active">
+                        <option value="1" {% if not input_values or input_values.active == '1' %}selected{% endif %}>Yes (Active)</option>
+                        <option value="0" {% if input_values and input_values.active == '0' %}selected{% endif %}>No (Sedentary)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="text-end border-top pt-4">
+                <button type="submit" class="btn btn-theme-cyan px-5 py-3 fs-6">
+                    <i class="fa-solid fa-calculator me-2"></i> Compute Risk Assessment
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
